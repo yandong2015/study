@@ -1,0 +1,57 @@
+一、 ubuntu搭建、安装gitlab服务器以及初始化密码
+   参考 https://www.cnblogs.com/dqcer/p/9596813.html
+
+在搭建之前要确定其网络环境是没有问题。用root身份进行操作
+
+1、安装和配置必要的依赖关系
+
+    apt-get update
+	apt-get install -y curl openssh-server ca-certificates
+	
+2、下载相关的文件，这里笔者采用的是国内镜像利用清华大学的镜像，进行下载，不然网速极慢。
+
+   wget https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/ubuntu/pool/trusty/main/g/gitlab-ce/ 	
+ 
+3、安装
+   dpkg -i gitlab-ce_10.0.1-ce.0_amd64.deb
+   
+4、修改服务器地址
+
+   vim /etc/gitlab/gitlab.rb
+   
+   将external_url ‘192.168.0.222’ 改为 external_url ‘http://192.168.0.222’
+   
+5、保存退出并启动gitlab   
+   gitlab-ctl reconfigure
+   
+   
+二、使用gitlab新建工程
+  Command line instructions
+
+  Git global setup
+  git config --global user.name "yd"
+  git config --global user.email "donsen.yan@royole.com"
+
+  Create a new repository
+    git clone git@192.168.134.129:yandong/kkkkkk.git
+    cd kkkkkk
+    touch README.md
+    git add README.md
+    git commit -m "add README"
+    git push -u origin master
+
+  Existing folder
+    cd existing_folder
+    git init
+    git remote add origin git@192.168.134.129:yandong/kkkkkk.git
+    git add .
+    git commit -m "Initial commit"
+	//++
+	git push --set-upstream origin master
+    git push -u origin master
+
+  Existing Git repository
+    cd existing_repo
+    git remote add origin git@192.168.134.129:yandong/kkkkkk.git
+    git push -u origin --all
+    git push -u origin --tags
